@@ -36,11 +36,15 @@ number_class = {
     9: 'Truck'
 }
 
-st.button('Predict', on_click=predict)
+if "prediction_result" not in st.session_state:
+    st.session_state.prediction_result = ""
 
-result_placeholder = st.empty()
 def predict():
     model = tf.keras.models.load_model('./model.keras')
     imagen = imagenes[number].reshape(1, 32, 32, 3)
     prediction = model.predict(imagen)
-    result_placeholder.write(f'The image is a {number_class[np.argmax(prediction)]}')
+    st.session_state.prediction_result = f'The image is a {number_class[np.argmax(prediction)]}'
+
+st.button('Predict', on_click=predict)
+
+st.write(st.session_state.prediction_result)
