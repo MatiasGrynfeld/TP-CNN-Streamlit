@@ -35,10 +35,12 @@ number_class = {
     8: 'Ship',
     9: 'Truck'
 }
+
+st.button('Predict', on_click=predict)
+
+result_placeholder = st.empty()
 def predict():
     model = tf.keras.models.load_model('./model.keras')
     imagen = imagenes[number].reshape(1, 32, 32, 3)
     prediction = model.predict(imagen)
-    st.write(f'The image is a {number_class[np.argmax(prediction)]}')
-
-st.button('Predict', on_click=predict)
+    result_placeholder.write(f'The image is a {number_class[np.argmax(prediction)]}')
